@@ -8,7 +8,7 @@
 # UPDATE!
 Switched to AWS. A lot cheaper if you only use them when you're learning.
 - Login:
-    - ssh -i ~/.ssh/cct-ssh.pem ubuntu@18.227.140.227
+    - ssh -i ~/.ssh/cct-ssh.pem ubuntu@jenkins.cristocreativetech.com
 
 
 # Fresh install
@@ -19,6 +19,9 @@ Switched to AWS. A lot cheaper if you only use them when you're learning.
 1. docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
 2. Created a new contiainer with added volume so Jenkins can use it. Attached persisted data too!
     - docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts
+3. need to continue to allow docker socket for container:
+    - docker exec -it -u 0 (jenkins-continer) bash
+    - chmod 666 /var/run/docker.sock
 
 # Jenkins setup
 1. docker exec -it {container} /bin/bash
@@ -34,3 +37,7 @@ Switched to AWS. A lot cheaper if you only use them when you're learning.
 
 # Fun fact
 - You could install tools (npm, maven) directly on the Jenkins server rather than installing a plugin. This isn't ideal though.
+
+# Issues
+1.  To login securely via docker hub to pipeline your pwd ex:
+    - echo "YOUR_ACCESS_TOKEN" | docker login -u "YOUR_USERNAME" --password-stdin
