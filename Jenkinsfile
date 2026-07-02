@@ -6,23 +6,32 @@ pipeline {
     }
 
     stages {
+        stage('init') {
+            steps {
+                script {
+                    gv = load 'script.groovy'
+                }
+            }
+        }
         stage('Build') {
             steps {
-                echo "Building version ${NEW_VERSION}..."
-                echo "With Branch: ${env.BRANCH_NAME}"
-                // Add build steps here
+                script {
+                    gv.buildApp()
+                }
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing...'
-                // Add test steps here
+                script {
+                    gv.testApp()
+                }
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
-                // Add deploy steps here
+                script {
+                    gv.deployApp()
+                }
             }
         }
     }
