@@ -2,6 +2,10 @@ def gv
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run tests after build')
+    }
+
     environment {
         NEW_VERSION = '1.0.0'
     }
@@ -22,6 +26,9 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                expression { return params.RUN_TESTS }
+            }
             steps {
                 script {
                     gv.testApp()

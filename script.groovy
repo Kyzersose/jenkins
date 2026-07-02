@@ -9,3 +9,5 @@ def testApp(){
 def deployApp(){
     echo 'Deploying the app'
 }
+
+return this
