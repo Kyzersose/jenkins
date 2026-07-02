@@ -11,7 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing...'
-                echo BRANCH_NAME
+                echo env.BRANCH_NAME
                 // Add test steps here
             }
         }
