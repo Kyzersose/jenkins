@@ -1,44 +1,29 @@
-def gv
 pipeline {
     agent any
-
-    parameters {
-        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run tests after build')
+    tools {
+        maven 'maven-3.9'
     }
-
-    environment {
-        NEW_VERSION = '1.0.0'
-    }
-
     stages {
-        stage('init') {
+        stage('build jar') {
             steps {
-                script {
-                    gv = load 'script.groovy'
-                }
+                echo 'Building the application'
+                sh 'mvn package'
             }
         }
-        stage('Build') {
+        stage('build image') {
             steps {
-                script {
-                    gv.buildApp()
-                }
-            }
-        }
-        stage('Test') {
-            when {
-                expression { return params.RUN_TESTS }
-            }
-            steps {
-                script {
-                    gv.testApp()
+                echo 'Building the Docker image'
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+                    sh 'docker build -t kyzersose/nana-jenkins-demo:jma2.1 .'
+                    sh 'echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin'
+                    sh 'docker push kyzersose/nana-jenkins-demo:jma2.1  '
                 }
             }
         }
         stage('Deploy') {
             steps {
                 script {
-                    gv.deployApp()
+                    echo 'Deploying the application'
                 }
             }
         }
