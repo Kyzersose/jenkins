@@ -1,0 +1,17 @@
+# Pipeline core (Declarative + stage view)
+workflow-aggregator
+pipeline-stage-view
+
+# SCM -- github-branch-source is what backs Multibranch Pipeline jobs
+git
+github-branch-source
+
+# Build tools used by the Jenkinsfile
+maven-plugin
+nodejs
+
+# 'docker' steps and docker.build()/withRegistry() in pipelines
+docker-workflow
+
+# withCredentials(usernamePassword(...)) for the Docker Hub login
+credentials-binding

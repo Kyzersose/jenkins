@@ -1,0 +1,4 @@
+# Shell scripts must keep LF endings or the Linux container fails to exec them
+# with "bad interpreter: /usr/bin/env bash^M".
+*.sh text eol=lf
+Dockerfile text eol=lf

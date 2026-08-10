@@ -1,0 +1,38 @@
+services:
+  jenkins:
+    build: .
+    image: local/jenkins-docker:lts
+    container_name: jenkins
+    restart: unless-stopped
+    # PID 1 reaper, so build processes spawned by pipelines don't leak as zombies.
+    init: true
+    volumes:
+      # Named volume = all Jenkins state. Survives `docker rm` and
+      # `docker compose down`. Only `down -v` destroys it.
+      - jenkins_home:/var/jenkins_home
+      # The host's Docker daemon, handed to the container's Docker CLI.
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      # Loopback only: cloudflared reaches Jenkins over the compose network,
+      # so nothing needs to listen on the LAN. Drop the "127.0.0.1:" prefix
+      # if you want to hit it from other machines on your network.
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:50000:50000"
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      # From the Zero Trust dashboard when you create the tunnel. Put it in
+      # a .env file next to this compose file (already gitignored).
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?set TUNNEL_TOKEN in .env}
+    depends_on:
+      - jenkins
+
+volumes:
+  jenkins_home:
+    # Explicit name so compose doesn't prefix it, and so it reuses the volume
+    # you already created with `docker run -v jenkins_home:...`.
+    name: jenkins_home
