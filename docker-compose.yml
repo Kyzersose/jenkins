@@ -13,23 +13,12 @@ services:
       # The host's Docker daemon, handed to the container's Docker CLI.
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      # Loopback only: cloudflared reaches Jenkins over the compose network,
-      # so nothing needs to listen on the LAN. Drop the "127.0.0.1:" prefix
-      # if you want to hit it from other machines on your network.
-      - "127.0.0.1:8080:8080"
-      - "127.0.0.1:50000:50000"
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared
-    restart: unless-stopped
-    command: tunnel --no-autoupdate run
-    environment:
-      # From the Zero Trust dashboard when you create the tunnel. Put it in
-      # a .env file next to this compose file (already gitignored).
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?set TUNNEL_TOKEN in .env}
-    depends_on:
-      - jenkins
+      # LAN-reachable: the Cloudflare tunnel runs on a separate box (Pi) and
+      # proxies in over the network, so this can't be loopback-only. Give
+      # this Mac a static IP / DHCP reservation so the tunnel's route stays
+      # valid.
+      - "8080:8080"
+      - "50000:50000"
 
 volumes:
   jenkins_home:

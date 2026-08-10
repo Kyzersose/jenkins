@@ -1,2 +1,14 @@
-# Holds the Cloudflare tunnel token -- never commit
+# Secrets / local overrides — never commit
 .env
+docker-compose.override.yml
+
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+
+# In case Jenkins state ever ends up bind-mounted locally instead of
+# the named `jenkins_home` volume
+jenkins_home/
