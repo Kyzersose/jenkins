@@ -12,6 +12,7 @@ jenkins.theshaeffers.com (cloudflare tunnel) -> raspberry pi > macbook air jenki
 - `docker-compose.yml` —
 - `entrypoint.sh` —
 - `plugins.txt` —
+- `casc.yaml` — Global Tool Configuration (JDK/Maven/Gradle local installs)
 - `Jenkinsfile` —
 - `script.groovy` —
 
@@ -30,4 +31,18 @@ https://jenkins.theshaeffers.com
 
 ### 4. Tools
 
-plugins.txt adds the plugins for Jenkins
+plugins.txt adds the plugins for Jenkins.
+
+JDK, Maven, and Gradle are baked into the image as fixed local installs
+(downloaded and checksum-verified in the Dockerfile, not fetched by
+Jenkins' own tool installers) and registered in Global Tool Configuration
+via `casc.yaml`:
+
+| Tool   | Name (used in `tools {}`) | Path            |
+|--------|----------------------------|-----------------|
+| JDK    | `jdk21`                    | `/opt/java/openjdk` (ships with the base image) |
+| Maven  | `maven-3.9`                 | `/opt/maven`    |
+| Gradle | `gradle-9`                  | `/opt/gradle`   |
+
+Bump versions via the `MAVEN_VERSION`/`GRADLE_VERSION` build args in the
+Dockerfile (update the matching `*_SHA512`/`*_SHA256` args alongside).

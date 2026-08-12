@@ -1,0 +1,17 @@
+# Global Tool Configuration, as code. Every tool here is a fixed local
+# install baked into the Dockerfile -- no "Install automatically" downloader,
+# so builds don't depend on network access to Adoptium/Apache/Gradle at
+# build time.
+tool:
+  jdk:
+    installations:
+      - name: "jdk21"
+        home: "/opt/java/openjdk"
+  maven:
+    installations:
+      - name: "maven-3.9"
+        home: "/opt/maven"
+  gradle:
+    installations:
+      - name: "gradle-9"
+        home: "/opt/gradle"

@@ -9,9 +9,17 @@ github-branch-source
 # Build tools used by the Jenkinsfile
 maven-plugin
 nodejs
+gradle
+
+# Lets Global Tool Configuration (JDK/Maven/Gradle local installs) be
+# defined in casc.yaml instead of clicked through the UI
+configuration-as-code
 
 # 'docker' steps and docker.build()/withRegistry() in pipelines
 docker-workflow
 
 # withCredentials(usernamePassword(...)) for the Docker Hub login
 credentials-binding
+
+# Gitlab
+gitlab-plugin
