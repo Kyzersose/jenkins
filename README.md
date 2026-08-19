@@ -8,15 +8,11 @@ much longer to finish the class than I had planned.
 
 jenkins.theshaeffers.com (cloudflare tunnel) -> raspberry pi > macbook air jenkins container
 
-- `Dockerfile` —
-- `docker-compose.yml` —
-- `entrypoint.sh` —
-- `plugins.txt` —
+- `Dockerfile` — builds the image, calls or copies the other files
+- `docker-compose.yml` — builds the docker network and container
+- `entrypoint.sh` — runs on every container start, fixes bind permissions for /var/run/docker.sock
+- `plugins.txt` — Plugins installed for Jenkins
 - `casc.yaml` — Global Tool Configuration (JDK/Maven/Gradle local installs)
-- `Jenkinsfile` —
-- `script.groovy` —
-
-## Prerequisites
 
 ## Setup
 

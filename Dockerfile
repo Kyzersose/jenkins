@@ -42,6 +42,16 @@ RUN curl -fsSL -o /tmp/maven.tar.gz \
  && ln -s "/opt/gradle-${GRADLE_VERSION}" /opt/gradle \
  && rm /tmp/gradle.zip
 
+# AWS CLI. Arch-detected the same way the Docker apt repo is above --
+# this image gets built natively on both Apple Silicon (arm64) and x86_64
+# hosts, and the x86_64 zip fails under Rosetta with a missing
+# /lib64/ld-linux-x86-64.so.2 on an arm64 base image.
+RUN AWS_CLI_ARCH="$(dpkg --print-architecture | sed 's/amd64/x86_64/; s/arm64/aarch64/')" \
+ && curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_CLI_ARCH}.zip" -o awscliv2.zip \
+ && unzip -q awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip ./aws
+
 COPY --chmod=0755 entrypoint.sh /usr/local/bin/jenkins-with-docker.sh
 
 # Registers the JDK already shipped by the base image (JAVA_HOME) plus the
