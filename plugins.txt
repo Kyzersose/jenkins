@@ -1,6 +1,7 @@
 # Pipeline core (Declarative + stage view)
 workflow-aggregator
 pipeline-stage-view
+pipeline-utility-steps
 
 # SCM -- github-branch-source is what backs Multibranch Pipeline jobs
 git
