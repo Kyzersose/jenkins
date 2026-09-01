@@ -8,7 +8,7 @@ USER root
 # pipelines are therefore siblings of this container, not children of it.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      ca-certificates curl gnupg gosu unzip \
+      ca-certificates curl gnupg gosu unzip libatomic1 \
  && install -m 0755 -d /etc/apt/keyrings \
  && curl -fsSL https://download.docker.com/linux/debian/gpg \
       -o /etc/apt/keyrings/docker.asc \
