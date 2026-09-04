@@ -24,3 +24,6 @@ credentials-binding
 
 # Gitlab
 gitlab-plugin
+
+#SSH agent
+ssh-agent
