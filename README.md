@@ -1,4 +1,4 @@
-# nana-jenkins
+# Homelab-jenkins
 
 This stands up a Jenkins server to be used as part of the Nana DevOps course.
 Because I don't want to pay the cloud costs! Especially since it's taking 
